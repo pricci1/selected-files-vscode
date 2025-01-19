@@ -50,7 +50,7 @@
         {
           "id": "selectedFilesViewContainer",
           "title": "Selected Files",
-          "icon": ""
+          "icon": "$(checklist)"
         }
       ]
     },
