@@ -56,6 +56,17 @@ export function activate(context: vscode.ExtensionContext) {
 
     vscode.commands.registerCommand('selectedFiles.removeFile', (fileItem: FileItem) => {
       selectedFilesProvider.removeFile(fileItem.uri);
+    }),
+
+		// Add this to the activate function along with other command registrations:
+    vscode.commands.registerCommand('selectedFiles.copyPaths', () => {
+      const paths = selectedFilesProvider.getSelectedPaths();
+      if (paths.length > 0) {
+        vscode.env.clipboard.writeText(paths.join(' '));
+        vscode.window.showInformationMessage('File paths copied to clipboard!');
+      } else {
+        vscode.window.showInformationMessage('No files selected to copy.');
+      }
     })
   );
 }

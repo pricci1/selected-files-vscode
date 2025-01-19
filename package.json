@@ -32,6 +32,11 @@
       {
         "command": "selectedFiles.removeFile",
         "title": "Selected Files: Remove File"
+      },
+      {
+        "command": "selectedFiles.copyPaths",
+        "title": "Copy Selected Files Paths",
+        "icon": "$(copy)"
       }
     ],
     "viewsContainers": {
@@ -48,6 +53,10 @@
         {
           "id": "selectedFilesView",
           "name": "My Selected Files"
+        },
+        {
+          "id": "selectedFilesActions",
+          "name": "Actions"
         }
       ]
     },
@@ -57,6 +66,13 @@
           "command": "selectedFiles.removeFile",
           "when": "view == selectedFilesView && viewItem == fileItem",
           "group": "inline"
+        }
+      ],
+      "view/title": [
+        {
+          "command": "selectedFiles.copyPaths",
+          "when": "view == selectedFilesActions",
+          "group": "navigation"
         }
       ]
     }

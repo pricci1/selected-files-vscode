@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
+import * as path from 'path';
 
 export class FileItem extends vscode.TreeItem {
   constructor(public readonly uri: vscode.Uri) {
-    super(uri.fsPath, vscode.TreeItemCollapsibleState.None);
+    super(path.basename(uri.fsPath), vscode.TreeItemCollapsibleState.None);
 
     this.contextValue = 'fileItem';
 
@@ -102,5 +103,9 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
       // this.context.globalState.update( ... );
       this.refresh();
     }
+  }
+
+  getSelectedPaths(): string[] {
+    return this.selectedFiles.map(uri => uri.fsPath.replace(/ /g, '\\ '));
   }
 }
