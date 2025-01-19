@@ -2,6 +2,9 @@
   "name": "selected-files",
   "displayName": "selected-files",
   "description": "Select files and perform actions",
+  "repository": {
+    "url": "https://github.com/pricci1/selected-files-vscode"
+  },
   "version": "0.1.0",
   "engines": {
     "vscode": "^1.96.0"
@@ -124,7 +127,7 @@
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
-    "pack": "vsce package --no-dependencies --allow-missing-repository",
+    "pack": "vsce package --no-dependencies",
     "watch": "tsc -watch -p ./",
     "pretest": "pnpm run compile && pnpm run lint",
     "lint": "eslint src",
