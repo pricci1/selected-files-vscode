@@ -2,7 +2,7 @@
   "name": "selected-files",
   "displayName": "selected-files",
   "description": "Select files and perform actions",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.96.0"
   },
