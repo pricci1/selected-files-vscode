@@ -73,6 +73,10 @@ export function activate(context: vscode.ExtensionContext) {
     vscode.commands.registerCommand("selectedFiles.reverseIncluded", () => {
       selectedFilesProvider.reverseIncludes();
     }),
+
+    vscode.commands.registerCommand("selectedFiles.removeAll", () => {
+      selectedFilesProvider.removeAll();
+    }),
   );
 }
 

@@ -45,6 +45,11 @@
         "command": "selectedFiles.reverseIncluded",
         "title": "Reverse Included",
         "icon": "$(arrow-swap)"
+      },
+      {
+        "command": "selectedFiles.removeAll",
+        "title": "Selected Files: Remove All",
+        "icon": "$(trash)"
       }
     ],
     "viewsContainers": {
@@ -90,6 +95,11 @@
         },
         {
           "command": "selectedFiles.reverseIncluded",
+          "when": "view == selectedFilesView",
+          "group": "navigation"
+        },
+        {
+          "command": "selectedFiles.removeAll",
           "when": "view == selectedFilesView",
           "group": "navigation"
         }
