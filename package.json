@@ -114,6 +114,7 @@
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p ./",
+    "pack": "vsce package --no-dependencies --allow-missing-repository",
     "watch": "tsc -watch -p ./",
     "pretest": "pnpm run compile && pnpm run lint",
     "lint": "eslint src",
@@ -127,6 +128,7 @@
     "@typescript-eslint/parser": "^8.17.0",
     "@vscode/test-cli": "^0.0.10",
     "@vscode/test-electron": "^2.4.1",
+    "@vscode/vsce": "^3.2.1",
     "eslint": "^9.16.0",
     "prettier": "^3.4.2",
     "typescript": "^5.7.2"
