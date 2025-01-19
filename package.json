@@ -33,17 +33,17 @@
       },
       {
         "command": "selectedFiles.copyPaths",
-        "title": "Copy Selected Files Paths",
+        "title": "Selected Files: Copy Selected Files Paths",
         "icon": "$(copy)"
       },
       {
         "command": "selectedFiles.toggleInclude",
-        "title": "Toggle Include",
+        "title": "Selected Files: Toggle Include",
         "icon": "$(check)"
       },
       {
         "command": "selectedFiles.reverseIncluded",
-        "title": "Reverse Included",
+        "title": "Selected Files: Reverse Included",
         "icon": "$(arrow-swap)"
       },
       {
