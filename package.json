@@ -75,6 +75,16 @@
           "group": "navigation"
         }
       ]
+    },
+    "configuration": {
+      "title": "Selected Files",
+      "properties": {
+        "selectedFiles.pathSeparator": {
+          "type": "string",
+          "default": " ",
+          "description": "Character(s) used to separate paths when copying"
+        }
+      }
     }
   },
   "scripts": {
