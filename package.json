@@ -40,6 +40,11 @@
         "command": "selectedFiles.toggleInclude",
         "title": "Toggle Include",
         "icon": "$(check)"
+      },
+      {
+        "command": "selectedFiles.reverseIncluded",
+        "title": "Reverse Included",
+        "icon": "$(arrow-swap)"
       }
     ],
     "viewsContainers": {
@@ -80,6 +85,11 @@
         },
         {
           "command": "selectedFiles.copyPaths",
+          "when": "view == selectedFilesView",
+          "group": "navigation"
+        },
+        {
+          "command": "selectedFiles.reverseIncluded",
           "when": "view == selectedFilesView",
           "group": "navigation"
         }

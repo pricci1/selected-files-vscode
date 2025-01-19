@@ -69,6 +69,10 @@ export function activate(context: vscode.ExtensionContext) {
         vscode.window.showInformationMessage("No files selected to copy.");
       }
     }),
+
+    vscode.commands.registerCommand("selectedFiles.reverseIncluded", () => {
+      selectedFilesProvider.reverseIncludes();
+    }),
   );
 }
 

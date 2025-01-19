@@ -114,6 +114,13 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
     }
   }
 
+  public reverseIncludes(): void {
+    for (const file of this.selectedFiles) {
+      file.include = !file.include;
+    }
+    this.refresh();
+  }
+
   getSelectedPaths(): string[] {
     const config = vscode.workspace.getConfiguration("selectedFiles");
     const copyRelativePath = config.get<boolean>("copyRelativePath", true);
