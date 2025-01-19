@@ -15,7 +15,8 @@
     "commands": [
       {
         "command": "selectedFiles.addCurrentFile",
-        "title": "Selected Files: Add Current File"
+        "title": "Selected Files: Add Current File",
+        "icon": "$(plus)"
       },
       {
         "command": "selectedFiles.addCurrentWindowFiles",
@@ -76,6 +77,11 @@
         }
       ],
       "view/title": [
+        {
+          "command": "selectedFiles.addCurrentFile",
+          "when": "view == selectedFilesView",
+          "group": "navigation"
+        },
         {
           "command": "selectedFiles.copyPaths",
           "when": "view == selectedFilesView",
