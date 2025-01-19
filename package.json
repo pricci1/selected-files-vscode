@@ -37,6 +37,10 @@
         "command": "selectedFiles.copyPaths",
         "title": "Copy Selected Files Paths",
         "icon": "$(copy)"
+      },
+      {
+        "command": "selectedFiles.toggleInclude",
+        "title": "Toggle Include"
       }
     ],
     "viewsContainers": {
@@ -60,6 +64,11 @@
       "view/item/context": [
         {
           "command": "selectedFiles.removeFile",
+          "when": "view == selectedFilesView && viewItem == fileItem",
+          "group": "inline"
+        },
+        {
+          "command": "selectedFiles.toggleInclude",
           "when": "view == selectedFilesView && viewItem == fileItem",
           "group": "inline"
         }

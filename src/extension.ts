@@ -19,6 +19,10 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }),
 
+    vscode.commands.registerCommand("selectedFiles.toggleInclude", (fileItem: FileItem) => {
+      selectedFilesProvider.toggleInclude(fileItem.uri);
+    }),
+
     vscode.commands.registerCommand("selectedFiles.addCurrentWindowFiles", () => {
       const uris = vscode.window.visibleTextEditors.map((ed) => ed.document.uri);
       if (uris.length === 0) {

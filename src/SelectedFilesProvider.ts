@@ -2,7 +2,10 @@ import * as vscode from "vscode";
 import * as path from "path";
 
 export class FileItem extends vscode.TreeItem {
-  constructor(public readonly uri: vscode.Uri) {
+  constructor(
+    public readonly uri: vscode.Uri,
+    public include: boolean = true,
+  ) {
     super(path.basename(uri.fsPath), vscode.TreeItemCollapsibleState.None);
 
     this.contextValue = "fileItem";
@@ -13,7 +16,7 @@ export class FileItem extends vscode.TreeItem {
       arguments: [this],
     };
     this.tooltip = uri.fsPath;
-    this.description = "Something"; // You could put a short string describing the file
+    this.iconPath = new vscode.ThemeIcon(this.include ? "check" : "circle-large-outline");
   }
 }
 
@@ -24,7 +27,7 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
     this._onDidChangeTreeData.event;
 
   // In-memory list of URIs
-  private selectedFiles: vscode.Uri[] = [];
+  private selectedFiles: { uri: vscode.Uri; include: boolean }[] = [];
 
   constructor(private context: vscode.ExtensionContext) {
     // Optional: Load persisted data here if you want the list to survive restarts
@@ -43,7 +46,7 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
   getChildren(element?: FileItem): Thenable<FileItem[]> {
     if (!element) {
       // Return all items at the root
-      return Promise.resolve(this.selectedFiles.map((uri) => new FileItem(uri)));
+      return Promise.resolve(this.selectedFiles.map((f) => new FileItem(f.uri, f.include)));
     } else {
       // This example has no nested items
       return Promise.resolve([]);
@@ -61,8 +64,8 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
    * Add a single file URI to the list (if not already in it).
    */
   addFile(uri: vscode.Uri) {
-    if (!this.selectedFiles.some((existing) => existing.fsPath === uri.fsPath)) {
-      this.selectedFiles.push(uri);
+    if (!this.selectedFiles.some((f) => f.uri.fsPath === uri.fsPath)) {
+      this.selectedFiles.push({ uri, include: true });
       // Persist if desired
       // this.context.globalState.update(
       //   'selectedFiles',
@@ -78,8 +81,8 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
   addFiles(uris: vscode.Uri[]) {
     let updated = false;
     for (const uri of uris) {
-      if (!this.selectedFiles.some((existing) => existing.fsPath === uri.fsPath)) {
-        this.selectedFiles.push(uri);
+      if (!this.selectedFiles.some((f) => f.uri.fsPath === uri.fsPath)) {
+        this.selectedFiles.push({ uri, include: true });
         updated = true;
       }
     }
@@ -94,11 +97,19 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
    * Remove a file from the list.
    */
   removeFile(uri: vscode.Uri) {
-    const index = this.selectedFiles.findIndex((f) => f.fsPath === uri.fsPath);
+    const index = this.selectedFiles.findIndex((f) => f.uri.fsPath === uri.fsPath);
     if (index >= 0) {
       this.selectedFiles.splice(index, 1);
       // Persist if desired
       // this.context.globalState.update( ... );
+      this.refresh();
+    }
+  }
+
+  public toggleInclude(uri: vscode.Uri) {
+    const found = this.selectedFiles.find((f) => f.uri.fsPath === uri.fsPath);
+    if (found) {
+      found.include = !found.include;
       this.refresh();
     }
   }
@@ -112,12 +123,14 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
       workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
     }
 
-    return this.selectedFiles.map((uri) => {
-      let filePath = uri.fsPath;
-      if (copyRelativePath && workspaceFolder && filePath.startsWith(workspaceFolder)) {
-        filePath = path.relative(workspaceFolder, filePath);
-      }
-      return filePath.replace(/ /g, "\\ ");
-    });
+    return this.selectedFiles
+      .filter((f) => f.include)
+      .map((f) => {
+        let filePath = f.uri.fsPath;
+        if (copyRelativePath && workspaceFolder && filePath.startsWith(workspaceFolder)) {
+          filePath = path.relative(workspaceFolder, filePath);
+        }
+        return filePath.replace(/ /g, "\\ ");
+      });
   }
 }
