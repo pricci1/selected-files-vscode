@@ -52,11 +52,7 @@
       "selectedFilesViewContainer": [
         {
           "id": "selectedFilesView",
-          "name": "My Selected Files"
-        },
-        {
-          "id": "selectedFilesActions",
-          "name": "Actions"
+          "name": "Selected Files"
         }
       ]
     },
@@ -71,7 +67,7 @@
       "view/title": [
         {
           "command": "selectedFiles.copyPaths",
-          "when": "view == selectedFilesActions",
+          "when": "view == selectedFilesView",
           "group": "navigation"
         }
       ]
