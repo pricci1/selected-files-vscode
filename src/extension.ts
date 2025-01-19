@@ -53,11 +53,6 @@ export function activate(context: vscode.ExtensionContext) {
       }
     }),
 
-    vscode.commands.registerCommand("selectedFiles.showFileInfo", (fileItem: FileItem) => {
-      // Just show the path. You could do something more interesting here!
-      vscode.window.showInformationMessage(`File info: ${fileItem.uri.fsPath}`);
-    }),
-
     vscode.commands.registerCommand("selectedFiles.removeFile", (fileItem: FileItem) => {
       selectedFilesProvider.removeFile(fileItem.uri);
     }),

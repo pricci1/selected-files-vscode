@@ -27,10 +27,6 @@
         "title": "Selected Files: Add Active Group's Files"
       },
       {
-        "command": "selectedFiles.showFileInfo",
-        "title": "Selected Files: Show File Info"
-      },
-      {
         "command": "selectedFiles.removeFile",
         "title": "Selected Files: Remove File",
         "icon": "$(trash)"
