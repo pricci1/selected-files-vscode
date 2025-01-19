@@ -1,19 +1,19 @@
-import * as vscode from 'vscode';
-import * as path from 'path';
+import * as vscode from "vscode";
+import * as path from "path";
 
 export class FileItem extends vscode.TreeItem {
   constructor(public readonly uri: vscode.Uri) {
     super(path.basename(uri.fsPath), vscode.TreeItemCollapsibleState.None);
 
-    this.contextValue = 'fileItem';
+    this.contextValue = "fileItem";
 
     this.command = {
-      command: 'selectedFiles.showFileInfo',
-      title: 'Show File Info',
-      arguments: [this]
+      command: "selectedFiles.showFileInfo",
+      title: "Show File Info",
+      arguments: [this],
     };
     this.tooltip = uri.fsPath;
-    this.description = 'Something'; // You could put a short string describing the file
+    this.description = "Something"; // You could put a short string describing the file
   }
 }
 
@@ -43,9 +43,7 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
   getChildren(element?: FileItem): Thenable<FileItem[]> {
     if (!element) {
       // Return all items at the root
-      return Promise.resolve(
-        this.selectedFiles.map(uri => new FileItem(uri))
-      );
+      return Promise.resolve(this.selectedFiles.map((uri) => new FileItem(uri)));
     } else {
       // This example has no nested items
       return Promise.resolve([]);
@@ -63,7 +61,7 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
    * Add a single file URI to the list (if not already in it).
    */
   addFile(uri: vscode.Uri) {
-    if (!this.selectedFiles.some(existing => existing.fsPath === uri.fsPath)) {
+    if (!this.selectedFiles.some((existing) => existing.fsPath === uri.fsPath)) {
       this.selectedFiles.push(uri);
       // Persist if desired
       // this.context.globalState.update(
@@ -80,7 +78,7 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
   addFiles(uris: vscode.Uri[]) {
     let updated = false;
     for (const uri of uris) {
-      if (!this.selectedFiles.some(existing => existing.fsPath === uri.fsPath)) {
+      if (!this.selectedFiles.some((existing) => existing.fsPath === uri.fsPath)) {
         this.selectedFiles.push(uri);
         updated = true;
       }
@@ -96,7 +94,7 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
    * Remove a file from the list.
    */
   removeFile(uri: vscode.Uri) {
-    const index = this.selectedFiles.findIndex(f => f.fsPath === uri.fsPath);
+    const index = this.selectedFiles.findIndex((f) => f.fsPath === uri.fsPath);
     if (index >= 0) {
       this.selectedFiles.splice(index, 1);
       // Persist if desired
@@ -106,6 +104,6 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
   }
 
   getSelectedPaths(): string[] {
-    return this.selectedFiles.map(uri => uri.fsPath.replace(/ /g, '\\ '));
+    return this.selectedFiles.map((uri) => uri.fsPath.replace(/ /g, "\\ "));
   }
 }

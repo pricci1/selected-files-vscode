@@ -1,37 +1,37 @@
-import * as vscode from 'vscode';
-import { SelectedFilesProvider, FileItem } from './SelectedFilesProvider';
+import * as vscode from "vscode";
+import { SelectedFilesProvider, FileItem } from "./SelectedFilesProvider";
 
 export function activate(context: vscode.ExtensionContext) {
   // Create our tree data provider
   const selectedFilesProvider = new SelectedFilesProvider(context);
 
   // Register it with VS Code. The 'selectedFilesView' ID matches package.json
-  vscode.window.registerTreeDataProvider('selectedFilesView', selectedFilesProvider);
+  vscode.window.registerTreeDataProvider("selectedFilesView", selectedFilesProvider);
 
   // Register commands
   context.subscriptions.push(
-    vscode.commands.registerCommand('selectedFiles.addCurrentFile', () => {
+    vscode.commands.registerCommand("selectedFiles.addCurrentFile", () => {
       const editor = vscode.window.activeTextEditor;
       if (editor) {
         selectedFilesProvider.addFile(editor.document.uri);
       } else {
-        vscode.window.showInformationMessage('No active editor to add.');
+        vscode.window.showInformationMessage("No active editor to add.");
       }
     }),
 
-    vscode.commands.registerCommand('selectedFiles.addCurrentWindowFiles', () => {
-      const uris = vscode.window.visibleTextEditors.map(ed => ed.document.uri);
+    vscode.commands.registerCommand("selectedFiles.addCurrentWindowFiles", () => {
+      const uris = vscode.window.visibleTextEditors.map((ed) => ed.document.uri);
       if (uris.length === 0) {
-        vscode.window.showInformationMessage('No visible editors to add.');
+        vscode.window.showInformationMessage("No visible editors to add.");
       } else {
         selectedFilesProvider.addFiles(uris);
       }
     }),
 
-    vscode.commands.registerCommand('selectedFiles.addCurrentEditorGroupFiles', () => {
+    vscode.commands.registerCommand("selectedFiles.addCurrentEditorGroupFiles", () => {
       const activeGroup = vscode.window.tabGroups.activeTabGroup;
       if (!activeGroup) {
-        vscode.window.showInformationMessage('No active editor group.');
+        vscode.window.showInformationMessage("No active editor group.");
         return;
       }
       // For each tab in the active group, extract its URI if it's a text editor
@@ -45,29 +45,31 @@ export function activate(context: vscode.ExtensionContext) {
       if (uris.length > 0) {
         selectedFilesProvider.addFiles(uris);
       } else {
-        vscode.window.showInformationMessage('No files found in the active editor group.');
+        vscode.window.showInformationMessage("No files found in the active editor group.");
       }
     }),
 
-    vscode.commands.registerCommand('selectedFiles.showFileInfo', (fileItem: FileItem) => {
+    vscode.commands.registerCommand("selectedFiles.showFileInfo", (fileItem: FileItem) => {
       // Just show the path. You could do something more interesting here!
       vscode.window.showInformationMessage(`File info: ${fileItem.uri.fsPath}`);
     }),
 
-    vscode.commands.registerCommand('selectedFiles.removeFile', (fileItem: FileItem) => {
+    vscode.commands.registerCommand("selectedFiles.removeFile", (fileItem: FileItem) => {
       selectedFilesProvider.removeFile(fileItem.uri);
     }),
 
-    vscode.commands.registerCommand('selectedFiles.copyPaths', () => {
+    vscode.commands.registerCommand("selectedFiles.copyPaths", () => {
       const paths = selectedFilesProvider.getSelectedPaths();
       if (paths.length > 0) {
-        const separator = vscode.workspace.getConfiguration('selectedFiles').get('pathSeparator', ' ');
-        vscode.env.clipboard.writeText(paths.join(separator ?? ' '));
-        vscode.window.showInformationMessage('File paths copied to clipboard!');
+        const separator = vscode.workspace
+          .getConfiguration("selectedFiles")
+          .get("pathSeparator", " ");
+        vscode.env.clipboard.writeText(paths.join(separator ?? " "));
+        vscode.window.showInformationMessage("File paths copied to clipboard!");
       } else {
-        vscode.window.showInformationMessage('No files selected to copy.');
+        vscode.window.showInformationMessage("No files selected to copy.");
       }
-    })
+    }),
   );
 }
 
