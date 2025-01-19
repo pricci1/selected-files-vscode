@@ -14,10 +14,52 @@
   "contributes": {
     "commands": [
       {
-        "command": "selected-files.helloWorld",
-        "title": "Hello World"
+        "command": "selectedFiles.addCurrentFile",
+        "title": "Selected Files: Add Current File"
+      },
+      {
+        "command": "selectedFiles.addCurrentWindowFiles",
+        "title": "Selected Files: Add All Visible Files"
+      },
+      {
+        "command": "selectedFiles.addCurrentEditorGroupFiles",
+        "title": "Selected Files: Add Active Group's Files"
+      },
+      {
+        "command": "selectedFiles.showFileInfo",
+        "title": "Selected Files: Show File Info"
+      },
+      {
+        "command": "selectedFiles.removeFile",
+        "title": "Selected Files: Remove File"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "selectedFilesViewContainer",
+          "title": "Selected Files",
+          "icon": ""
+        }
+      ]
+    },
+    "views": {
+      "selectedFilesViewContainer": [
+        {
+          "id": "selectedFilesView",
+          "name": "My Selected Files"
+        }
+      ]
+    },
+    "menus": {
+      "view/item/context": [
+        {
+          "command": "selectedFiles.removeFile",
+          "when": "view == selectedFilesView && viewItem == fileItem",
+          "group": "inline"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
