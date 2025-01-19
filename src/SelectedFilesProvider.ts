@@ -11,9 +11,9 @@ export class FileItem extends vscode.TreeItem {
     this.contextValue = "fileItem";
 
     this.command = {
-      command: "selectedFiles.showFileInfo",
-      title: "Show File Info",
-      arguments: [this],
+      command: "vscode.open",
+      title: "Open file in editor",
+      arguments: [this.uri],
     };
     this.tooltip = uri.fsPath;
     this.iconPath = new vscode.ThemeIcon(this.include ? "check" : "circle-large-outline");
