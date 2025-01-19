@@ -79,6 +79,11 @@
           "type": "string",
           "default": " ",
           "description": "Character(s) used to separate paths when copying"
+        },
+        "selectedFiles.copyRelativePath": {
+          "type": "boolean",
+          "default": true,
+          "description": "When true, copied paths will be relative to the workspace root. Otherwise, absolute paths will be used."
         }
       }
     }

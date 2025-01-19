@@ -104,6 +104,20 @@ export class SelectedFilesProvider implements vscode.TreeDataProvider<FileItem> 
   }
 
   getSelectedPaths(): string[] {
-    return this.selectedFiles.map((uri) => uri.fsPath.replace(/ /g, "\\ "));
+    const config = vscode.workspace.getConfiguration("selectedFiles");
+    const copyRelativePath = config.get<boolean>("copyRelativePath", true);
+
+    let workspaceFolder: string | undefined;
+    if (vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders.length > 0) {
+      workspaceFolder = vscode.workspace.workspaceFolders[0].uri.fsPath;
+    }
+
+    return this.selectedFiles.map((uri) => {
+      let filePath = uri.fsPath;
+      if (copyRelativePath && workspaceFolder && filePath.startsWith(workspaceFolder)) {
+        filePath = path.relative(workspaceFolder, filePath);
+      }
+      return filePath.replace(/ /g, "\\ ");
+    });
   }
 }
